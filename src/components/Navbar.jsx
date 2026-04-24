@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, Info, User, Home } from "lucide-react";
-
+import { Search, Info, User, Home, Menu, X } from "lucide-react";
 
 export const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <nav className="bg-white border-b border-[#D97706]/20 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,9 +14,15 @@ export const Navbar = () => {
               Kos<span className="text-[#78350F]">Ku</span>
             </span>
           </Link>
+
+          {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8 items-center">
-            <Link to="/" className="flex items-center gap-2 text-gray-600 hover:text-[#D97706] font-medium transition-colors font-sans">
-                <Home size={18} />Beranda
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-gray-600 hover:text-[#D97706] font-medium transition-colors font-sans"
+            >
+              <Home size={18} />
+              Beranda
             </Link>
             <Link
               to="/cari"
@@ -32,28 +40,55 @@ export const Navbar = () => {
               <User size={18} /> Masuk
             </button>
           </div>
-          <div className="md:hidden text-[#78350F]">
-            <Link to="/cari" className="mr-4 inline-block">
-              <Search size={24} />
+
+          {/* Mobile Right Icons */}
+          <div className="md:hidden flex items-center gap-4 text-[#78350F]">
+            <Link to="/cari">
+              <Search size={22} />
             </Link>
-            <button className="focus:outline-none">
-              <svg
-                className="h-6 w-6 inline-block"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="focus:outline-none p-1"
+            >
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100 shadow-xl animate-in slide-in-from-top duration-300">
+          <div className="px-4 pt-2 pb-6 space-y-1">
+            <Link
+              to="/"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-gray-700 hover:bg-[#FFFBEB] hover:text-[#D97706] rounded-xl font-bold transition-all"
+            >
+              <Home size={20} /> Beranda
+            </Link>
+            <Link
+              to="/cari"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-gray-700 hover:bg-[#FFFBEB] hover:text-[#D97706] rounded-xl font-bold transition-all"
+            >
+              <Search size={20} /> Cari Kos
+            </Link>
+            <a
+              href="#"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-gray-700 hover:bg-[#FFFBEB] hover:text-[#D97706] rounded-xl font-bold transition-all"
+            >
+              <Info size={20} /> Tentang Kami
+            </a>
+            <div className="pt-4 px-4">
+              <button className="w-full flex items-center justify-center gap-2 bg-[#D97706] text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-all">
+                <User size={20} /> Masuk / Daftar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
