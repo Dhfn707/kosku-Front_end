@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const csrf = () => api.get("/sanctum/csrf-cookie");
+  const csrf = () => axios.get("/sanctum/csrf-cookie", { withCredentials: true });
 
   const login = async (credentials) => {
     setError(null);

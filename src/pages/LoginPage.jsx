@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 export const LoginPage = () => {
@@ -85,6 +85,12 @@ export const LoginPage = () => {
             >
               Masuk
             </button>
+          </div>
+          <div className="text-center text-sm">
+            <span className="text-gray-600">Belum punya akun? </span>
+            <Link to="/register" className="font-medium text-amber-600 hover:text-amber-700">
+              Daftar di sini
+            </Link>
           </div>
         </form>
       </div>

@@ -19,7 +19,8 @@ api.interceptors.response.use(
     if (response?.status === 419 && !config._retry) {
       config._retry = true;
       try {
-        await api.get("/sanctum/csrf-cookie");
+        // Fetch CSRF cookie from the base path (outside /api)
+        await axios.get("/sanctum/csrf-cookie", { withCredentials: true });
         return api(config);
       } catch (csrfError) {
         return Promise.reject(csrfError);
