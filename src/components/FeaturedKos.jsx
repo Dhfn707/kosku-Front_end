@@ -38,7 +38,7 @@ export const FeaturedKos = () => {
               Kos Terpopuler
             </h2>
             <p className="mt-2 text-gray-600 font-sans">
-              {APP_CONFIG.DESCRIPTION}
+              Pilihan terbaik di berbagai kota besar di Indonesia.
             </p>
           </div>
           <Link
