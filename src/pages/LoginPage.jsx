@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [localError, setLocalError] = useState('');
-  const { login, error } = useAuth();
+  const { login, error, setError } = useAuth();
   const navigate = useNavigate();
+
+  // Clear errors on mount
+  useEffect(() => {
+    setError(null);
+  }, [setError]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLocalError('');
-
     try {
       await login({ email, password });
       navigate('/');
     } catch (err) {
       console.error('Login error:', err);
     }
+  };
+
+  const renderErrors = () => {
+    if (!error) return null;
+    
+    if (typeof error === 'string') {
+      return (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <ul className="list-disc list-inside">
+          {Object.entries(error).map(([field, messages]) => (
+            <li key={field}>{messages[0]}</li>
+          ))}
+        </ul>
+      </div>
+    );
   };
 
   return (
@@ -30,11 +54,7 @@ export const LoginPage = () => {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          {(error || localError) && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-              <span className="block sm:inline">{error || localError}</span>
-            </div>
-          )}
+          {renderErrors()}
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <input
