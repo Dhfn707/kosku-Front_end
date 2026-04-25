@@ -1,8 +1,34 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, MapPin } from "lucide-react";
-import { DUMMY_KOS } from "../data";
+import { ArrowRight, Star, MapPin, Loader2 } from "lucide-react";
+import { useFeaturedProperties } from "../hooks/useFeaturedProperties";
 
 export const FeaturedKos = () => {
+  const { kosData, loading, error } = useFeaturedProperties();
+
+  if (loading) {
+    return (
+      <div className="py-16 bg-[#FFFBEB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="w-10 h-10 text-[#D97706] animate-spin" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-16 bg-[#FFFBEB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-center">
+            {error}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="py-16 bg-[#FFFBEB]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,7 +38,7 @@ export const FeaturedKos = () => {
               Kos Terpopuler
             </h2>
             <p className="mt-2 text-gray-600 font-sans">
-              Pilihan terbaik di berbagai kota besar di Indonesia.
+              {APP_CONFIG.DESCRIPTION}
             </p>
           </div>
           <Link
@@ -24,7 +50,7 @@ export const FeaturedKos = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {DUMMY_KOS.slice(0, 6).map((kos) => (
+          {kosData.slice(0, 6).map((kos) => (
             <div
               key={kos.id}
               className="bg-white rounded-2xl overflow-hidden shadow-lg border border-[#D97706]/10 hover:shadow-2xl transition-all group"
@@ -53,7 +79,7 @@ export const FeaturedKos = () => {
                   {kos.address}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {kos.facilities.slice(0, 3).map((f, idx) => (
+                  {kos.facilities?.slice(0, 3).map((f, idx) => (
                     <span
                       key={idx}
                       className="bg-gray-100 text-gray-600 text-[10px] px-2 py-1 rounded-md font-medium"
@@ -65,7 +91,7 @@ export const FeaturedKos = () => {
                 <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
                   <div>
                     <span className="text-lg font-bold text-[#D97706]">
-                      Rp {kos.price.toLocaleString("id-ID")}
+                      Rp {kos.price?.toLocaleString("id-ID")}
                     </span>
                     <span className="text-gray-400 text-xs font-sans">
                       {" "}

@@ -11,6 +11,8 @@ export const DUMMY_KOS = [
     sqft: 16,
     facilities: ["AC", "WiFi", "Kamar Mandi Dalam", "Laundry"],
     owner: { name: "Bpk. Haris", verified: true },
+    lat: -6.1891,
+    lng: 106.8324,
   },
   {
     id: 2,
@@ -24,6 +26,8 @@ export const DUMMY_KOS = [
     sqft: 12,
     facilities: ["WiFi", "Kamar Mandi Dalam", "Kasur"],
     owner: { name: "Ibu Siti", verified: true },
+    lat: -6.3644,
+    lng: 106.8286,
   },
   {
     id: 3,
@@ -37,6 +41,8 @@ export const DUMMY_KOS = [
     sqft: 15,
     facilities: ["AC", "Parkir Motor", "Dapur Umum"],
     owner: { name: "Bpk. Andi", verified: false },
+    lat: -6.5891,
+    lng: 106.8061,
   },
   {
     id: 4,
@@ -50,6 +56,8 @@ export const DUMMY_KOS = [
     sqft: 20,
     facilities: ["AC", "Kolam Renang", "Gym"],
     owner: { name: "Ibu Maya", verified: true },
+    lat: -6.8722,
+    lng: 107.6153,
   },
   {
     id: 5,
@@ -63,6 +71,8 @@ export const DUMMY_KOS = [
     sqft: 9,
     facilities: ["WiFi", "Kamar Mandi Luar", "Parkir"],
     owner: { name: "Ibu Sri", verified: true },
+    lat: -7.7926,
+    lng: 110.3631,
   },
   {
     id: 6,
@@ -76,6 +86,8 @@ export const DUMMY_KOS = [
     sqft: 25,
     facilities: ["Private Bathroom", "AC", "Pool", "Kitchen"],
     owner: { name: "Bli Wayan", verified: true },
+    lat: -8.6478,
+    lng: 115.1316,
   },
   {
     id: 7,
@@ -89,6 +101,8 @@ export const DUMMY_KOS = [
     sqft: 18,
     facilities: ["AC", "Laundry", "Cleaning Service"],
     owner: { name: "Bpk. Rahmat", verified: true },
+    lat: -7.9425,
+    lng: 112.6224,
   },
   {
     id: 8,
@@ -102,6 +116,8 @@ export const DUMMY_KOS = [
     sqft: 14,
     facilities: ["WiFi", "Kamar Mandi Dalam", "TV"],
     owner: { name: "Ibu Lina", verified: false },
+    lat: 1.1445,
+    lng: 104.0152,
   },
   {
     id: 9,
@@ -115,5 +131,8 @@ export const DUMMY_KOS = [
     sqft: 12,
     facilities: ["WiFi", "Parkir Luas", "Meja Belajar"],
     owner: { name: "Bpk. Syarif", verified: true },
+    lat: 3.5852,
+    lng: 98.6674,
+
   },
 ];

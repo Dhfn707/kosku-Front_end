@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MapPin, Star, ArrowRight, Square } from "lucide-react";
 import { DUMMY_KOS } from "../data";
+import MapComponent from "./MapComponent";
 
 export const HighlightSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -56,19 +57,11 @@ export const HighlightSlider = () => {
 
                     {/* OpenStreetMap Search Preview */}
                     <div className="w-full h-32 rounded-xl overflow-hidden mb-6 border border-[#D97706]/20 relative group-hover:border-[#D97706]/40 transition-colors">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        frameBorder="0"
-                        style={{
-                          border: 0,
-                          filter: "grayscale(0.2) contrast(1.1)",
-                        }}
-                        src={`https://maps.google.com/maps?q=${encodeURIComponent(
-                          kos.address + " " + kos.city,
-                        )}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                        allowFullScreen
-                      ></iframe>
+                      <MapComponent 
+                        lat={kos.lat} 
+                        lng={kos.lng} 
+                        address={kos.name} 
+                      />
                       <div className="absolute inset-0 bg-[#78350F]/5 pointer-events-none"></div>
                     </div>
 

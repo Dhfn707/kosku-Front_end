@@ -36,9 +36,9 @@ export const Navbar = () => {
             >
               <Info size={18} /> Tentang Kami
             </a>
-            <button className="flex items-center gap-2 bg-[#D97706] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#78350F] transition-all shadow-md font-sans">
+            <Link to="/login" className="flex items-center gap-2 bg-[#D97706] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#78350F] transition-all shadow-md font-sans">
               <User size={18} /> Masuk
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Right Icons */}
@@ -82,9 +82,13 @@ export const Navbar = () => {
               <Info size={20} /> Tentang Kami
             </a>
             <div className="pt-4 px-4">
-              <button className="w-full flex items-center justify-center gap-2 bg-[#D97706] text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-all">
+              <Link
+                to="/login"
+                onClick={() => setIsOpen(false)}
+                className="w-full flex items-center justify-center gap-2 bg-[#D97706] text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-all"
+              >
                 <User size={20} /> Masuk / Daftar
-              </button>
+              </Link>
             </div>
           </div>
         </div>
