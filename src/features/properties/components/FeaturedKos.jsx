@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, MapPin, Loader2 } from "lucide-react";
-import { useFeaturedProperties } from "../hooks/useFeaturedProperties";
+import { useFeaturedProperties } from '@/features/properties/hooks/useFeaturedProperties';
 
 export const FeaturedKos = () => {
   const { kosData, loading, error } = useFeaturedProperties();

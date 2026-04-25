@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api/axios";
+import api from '@/config/axios';
 
 export const usePropertyDetail = (id) => {
   const [kos, setKos] = useState(null);

@@ -9,7 +9,7 @@ import {
   X,
   Loader2,
 } from "lucide-react";
-import { useProperties } from "../hooks/useProperties";
+import { useProperties } from '@/features/properties/hooks/useProperties';
 
 export const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");

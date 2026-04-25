@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MapPin, Star, ArrowRight, Square } from "lucide-react";
-import { DUMMY_KOS } from "../data";
-import MapComponent from "./MapComponent";
+import { DUMMY_KOS } from '@/shared/testing/data';
+import MapComponent from "@/features/map/components/MapComponent";
 
 export const HighlightSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

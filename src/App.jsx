@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar } from "./components/Navbar";
-import { Footer } from "./components/Footer";
-import { LandingPage } from "./pages/LandingPage";
-import { SearchPage } from "./pages/SearchPage";
-import { DetailPage } from "./pages/DetailPage";
-import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
+import { Navbar } from '@/shared/components/Navbar';
+import { Footer } from '@/shared/components/Footer';
+import { LandingPage } from '@/features/properties/pages/LandingPage';
+import { SearchPage } from '@/features/properties/pages/SearchPage';
+import { DetailPage } from '@/features/properties/pages/DetailPage';
+import { LoginPage } from '@/features/auth/pages/LoginPage';
+import { RegisterPage } from '@/features/auth/pages/RegisterPage';
 import "./App.css";
 
 function App() {

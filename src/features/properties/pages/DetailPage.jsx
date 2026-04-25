@@ -13,8 +13,8 @@ import {
   Phone,
   Loader2,
 } from "lucide-react";
-import { usePropertyDetail } from "../hooks/usePropertyDetail";
-import MapComponent from "../components/MapComponent";
+import { usePropertyDetail } from '@/features/properties/hooks/usePropertyDetail';
+import MapComponent from '@/features/map/components/MapComponent';
 
 export const DetailPage = () => {
   const { id } = useParams();
