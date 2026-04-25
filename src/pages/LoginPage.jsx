@@ -1,35 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/axios';
+import useAuth from '../hooks/useAuth';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [localError, setLocalError] = useState('');
+  const { login, error } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
+    setLocalError('');
 
     try {
-      // 1. CSRF Handshake
-      await api.get('/sanctum/csrf-cookie', { 
-        baseURL: 'http://kosku-backend.ddev.site:8080' 
-      });
-
-      // 2. Login request
-      await api.post('/login', { email, password });
-
-      // 3. Redirect to Landing Page
+      await login({ email, password });
       navigate('/');
     } catch (err) {
       console.error('Login error:', err);
-      if (err.config && err.config.url.includes('/sanctum/csrf-cookie')) {
-        setError('Gagal melakukan CSRF handshake. Silakan coba lagi.');
-      } else {
-        setError(err.response?.data?.message || 'Login gagal. Periksa kembali email dan password Anda.');
-      }
     }
   };
 
@@ -42,9 +30,9 @@ export const LoginPage = () => {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          {error && (
+          {(error || localError) && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-              <span className="block sm:inline">{error}</span>
+              <span className="block sm:inline">{error || localError}</span>
             </div>
           )}
           <div className="rounded-md shadow-sm -space-y-px">

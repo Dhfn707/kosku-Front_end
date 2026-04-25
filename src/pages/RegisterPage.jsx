@@ -1,42 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/axios';
+import useAuth from '../hooks/useAuth';
 
 export const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [error, setError] = useState('');
+  const [localError, setLocalError] = useState('');
+  const { register, error } = useAuth();
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError('');
+    setLocalError('');
 
     try {
-      // 1. CSRF Handshake
-      await api.get('/sanctum/csrf-cookie', { 
-        baseURL: 'http://kosku-backend.ddev.site:8080' 
-      });
-
-      // 2. Register request
-      await api.post('/register', { 
+      await register({ 
         name, 
         email, 
         password, 
         password_confirmation: passwordConfirmation 
       });
-
-      // 3. Redirect to Landing Page
       navigate('/');
     } catch (err) {
       console.error('Registration error:', err);
-      if (err.config && err.config.url.includes('/sanctum/csrf-cookie')) {
-        setError('Gagal melakukan CSRF handshake. Silakan coba lagi.');
-      } else {
-        setError(err.response?.data?.message || 'Registrasi gagal. Silakan periksa kembali data Anda.');
-      }
     }
   };
 
@@ -49,9 +37,9 @@ export const RegisterPage = () => {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleRegister}>
-          {error && (
+          {(error || localError) && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-              <span className="block sm:inline">{error}</span>
+              <span className="block sm:inline">{error || localError}</span>
             </div>
           )}
           <div className="rounded-md shadow-sm -space-y-px">

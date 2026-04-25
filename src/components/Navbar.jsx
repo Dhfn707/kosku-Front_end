@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, Info, User, Home, Menu, X } from "lucide-react";
+import { Search, Info, User, Home, Menu, X, LogOut } from "lucide-react";
+import useAuth from "../hooks/useAuth";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <nav className="bg-white border-b border-[#D97706]/20 sticky top-0 z-50">
@@ -36,9 +38,23 @@ export const Navbar = () => {
             >
               <Info size={18} /> Tentang Kami
             </a>
-            <Link to="/login" className="flex items-center gap-2 bg-[#D97706] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#78350F] transition-all shadow-md font-sans">
-              <User size={18} /> Masuk
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-gray-700 font-medium font-sans flex items-center gap-2">
+                  <User size={18} /> {user.name}
+                </span>
+                <button
+                  onClick={logout}
+                  className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition-all shadow-md font-sans"
+                >
+                  <LogOut size={18} /> Keluar
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="flex items-center gap-2 bg-[#D97706] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#78350F] transition-all shadow-md font-sans">
+                <User size={18} /> Masuk
+              </Link>
+            )}
           </div>
 
           {/* Mobile Right Icons */}
@@ -82,13 +98,30 @@ export const Navbar = () => {
               <Info size={20} /> Tentang Kami
             </a>
             <div className="pt-4 px-4">
-              <Link
-                to="/login"
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center justify-center gap-2 bg-[#D97706] text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-all"
-              >
-                <User size={20} /> Masuk / Daftar
-              </Link>
+              {user ? (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 px-4 py-3 text-gray-700 font-bold">
+                    <User size={20} /> {user.name}
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsOpen(false);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-all"
+                  >
+                    <LogOut size={20} /> Keluar
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center justify-center gap-2 bg-[#D97706] text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-all"
+                >
+                  <User size={20} /> Masuk / Daftar
+                </Link>
+              )}
             </div>
           </div>
         </div>
