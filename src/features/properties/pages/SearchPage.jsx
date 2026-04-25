@@ -7,8 +7,9 @@ import {
   Search,
   SlidersHorizontal,
   X,
+  Loader2,
 } from "lucide-react";
-import { DUMMY_KOS } from "../data";
+import { useProperties } from '@/features/properties/hooks/useProperties';
 
 export const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,24 +18,14 @@ export const SearchPage = () => {
   const [selectedFacility, setSelectedFacility] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
 
-  const cities = ["Semua", ...new Set(DUMMY_KOS.map((k) => k.city))];
+  const { properties, metadata, isLoading, error } = useProperties(
+    searchTerm,
+    selectedCity,
+    selectedType,
+    selectedFacility
+  );
+
   const types = ["Semua", "Putra", "Putri", "Campur"];
-  const allFacilities = [...new Set(DUMMY_KOS.flatMap((k) => k.facilities))];
-
-  const filteredKos = useMemo(() => {
-    return DUMMY_KOS.filter((kos) => {
-      const matchSearch =
-        kos.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        kos.address.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchCity = selectedCity === "Semua" || kos.city === selectedCity;
-      const matchType = selectedType === "Semua" || kos.type === selectedType;
-      const matchFacilities =
-        selectedFacility.length === 0 ||
-        selectedFacility.every((f) => kos.facilities.includes(f));
-
-      return matchSearch && matchCity && matchType && matchFacilities;
-    });
-  }, [searchTerm, selectedCity, selectedType, selectedFacility]);
 
   const toggleFacility = (facility) => {
     setSelectedFacility((prev) =>
@@ -96,7 +87,7 @@ export const SearchPage = () => {
                   Kota
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {cities.map((city) => (
+                  {["Semua", ...metadata.cities].map((city) => (
                     <button
                       key={city}
                       onClick={() => setSelectedCity(city)}
@@ -138,7 +129,7 @@ export const SearchPage = () => {
                   Fasilitas
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {allFacilities.map((facility) => (
+                  {metadata.facilities.map((facility) => (
                     <button
                       key={facility}
                       onClick={() => toggleFacility(facility)}
@@ -168,10 +159,27 @@ export const SearchPage = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl mb-8 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="bg-red-100 p-2 rounded-full">
+                <X size={20} className="text-red-600" />
+              </div>
+              <p className="font-medium">{error}</p>
+            </div>
+            <button 
+              onClick={() => window.location.reload()}
+              className="text-sm font-bold underline hover:text-red-800"
+            >
+              Coba Lagi
+            </button>
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-8">
           <div>
             <h2 className="text-2xl font-black text-[#78350F]">
-              {filteredKos.length} Kos Ditemukan
+              {properties.length} Kos Ditemukan
             </h2>
             <p className="text-gray-500 font-sans">
               Menampilkan properti terbaik untuk Anda
@@ -179,9 +187,14 @@ export const SearchPage = () => {
           </div>
         </div>
 
-        {filteredKos.length > 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="w-12 h-12 text-[#D97706] animate-spin mb-4" />
+            <p className="text-[#78350F] font-bold">Mencari kos terbaik...</p>
+          </div>
+        ) : properties.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredKos.map((kos) => (
+            {properties.map((kos) => (
               <div
                 key={kos.id}
                 className="bg-white rounded-3xl overflow-hidden shadow-sm border border-[#D97706]/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
