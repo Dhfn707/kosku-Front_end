@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
@@ -7,14 +7,16 @@ export const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [localError, setLocalError] = useState('');
-  const { register, error } = useAuth();
+  const { register, error, setError } = useAuth();
   const navigate = useNavigate();
+
+  // Clear errors on mount
+  useEffect(() => {
+    setError(null);
+  }, [setError]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLocalError('');
-
     try {
       await register({ 
         name, 
@@ -28,6 +30,28 @@ export const RegisterPage = () => {
     }
   };
 
+  const renderErrors = () => {
+    if (!error) return null;
+    
+    if (typeof error === 'string') {
+      return (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <ul className="list-disc list-inside">
+          {Object.entries(error).map(([field, messages]) => (
+            <li key={field}>{messages[0]}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <div className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
@@ -37,11 +61,7 @@ export const RegisterPage = () => {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleRegister}>
-          {(error || localError) && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-              <span className="block sm:inline">{error || localError}</span>
-            </div>
-          )}
+          {renderErrors()}
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <input
