@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const csrf = () => axios.get("/sanctum/csrf-cookie", { withCredentials: true });
+  const csrf = () => api.get("/sanctum/csrf-cookie");
 
   const login = async (credentials) => {
     setError(null);
@@ -29,7 +29,9 @@ export const AuthProvider = ({ children }) => {
       await api.post("/login", credentials);
       await getMe();
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      // Extract Laravel validation errors or general message
+      const errorData = err.response?.data;
+      setError(errorData?.errors || errorData?.message || "Login failed");
       throw err;
     }
   };
@@ -41,7 +43,8 @@ export const AuthProvider = ({ children }) => {
       await api.post("/register", data);
       await getMe();
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+      const errorData = err.response?.data;
+      setError(errorData?.errors || errorData?.message || "Registration failed");
       throw err;
     }
   };
@@ -61,7 +64,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, register, logout, loading, error, getMe }}
+      value={{ user, login, register, logout, loading, error, setError, getMe }}
     >
       {children}
     </AuthContext.Provider>
